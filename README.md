@@ -2,7 +2,8 @@
 
 android开发之 GestureDetector 手势识别（调节音量、亮度、快进和后退）
 
-![http://seachal-blog-picture-host.oss-cn-beijing.aliyuncs.com/20150704181852957.gif](img_2.png)
+
+![](http://seachal-blog-picture-host.oss-cn-beijing.aliyuncs.com/20150704181852957.gif)
 
 写UI布局：
 
