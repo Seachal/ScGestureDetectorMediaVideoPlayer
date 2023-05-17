@@ -2,8 +2,6 @@
 
 android开发之 GestureDetector 手势识别（调节音量、亮度、快进和后退）
 
-详细请戳Here：http://blog.csdn.net/seachal/article/details/46759321
-
 ![http://seachal-blog-picture-host.oss-cn-beijing.aliyuncs.com/20150704181852957.gif](img_2.png)
 
 写UI布局：
@@ -337,12 +335,12 @@ public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float d
             gesture_bright_layout.setVisibility(View.GONE);
             GESTURE_FLAG = GESTURE_MODIFY_PROGRESS;
         } else {
-            if (mOldX > playerWidth * 3.0 / 5) {// 音量
+            if (mOldX > playerWidth * 3.0 / 5) {// 音量 右侧上下滑动调音量
                 gesture_volume_layout.setVisibility(View.VISIBLE);
                 gesture_bright_layout.setVisibility(View.GONE);
                 gesture_progress_layout.setVisibility(View.GONE);
                 GESTURE_FLAG = GESTURE_MODIFY_VOLUME;
-            } else if (mOldX < playerWidth * 2.0 / 5) {// 亮度
+            } else if (mOldX < playerWidth * 2.0 / 5) {// 亮度  左侧上下滑动调亮度
                 gesture_bright_layout.setVisibility(View.VISIBLE);
                 gesture_volume_layout.setVisibility(View.GONE);
                 gesture_progress_layout.setVisibility(View.GONE);
@@ -351,7 +349,7 @@ public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float d
         }
     }
 
-    // 如果每次触摸屏幕后第一次scroll是调节进度，那之后的scroll事件都处理音量进度，直到离开屏幕执行下一次操作
+    // 如果每次触摸屏幕后第一次scroll是调节进度，那之后的scroll事件都处理进度，直到离开屏幕执行下一次操作
     if (GESTURE_FLAG == GESTURE_MODIFY_PROGRESS) {
         // distanceX=lastScrollPositionX-currentScrollPositionX，因此为正时是快进
         if (Math.abs(distanceX) > Math.abs(distanceY)) {// 横向移动大于纵向移动

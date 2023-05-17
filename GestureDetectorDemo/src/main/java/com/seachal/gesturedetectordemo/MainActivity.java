@@ -14,11 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.seachal.gesturedetectordemo.views.MyVideoView;
-import com.seachal.gesturedetectordemo.R;
 import com.seachal.gesturedetectordemo.utils.DateTools;
 import com.seachal.gesturedetectordemo.utils.DensityUtil;
+import com.seachal.gesturedetectordemo.views.MyVideoView;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -137,8 +137,9 @@ public class MainActivity extends FragmentActivity implements OnGestureListener,
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        float mOldX = e1.getX(), mOldY = e1.getY();
-        int y = (int) e2.getRawY();
+        float mOldX = e1.getX(),
+                mOldY = e1.getY();
+        int e2RawY = (int) e2.getRawY();
         if (firstScroll) {// 以触摸屏幕后第一次滑动为标准，避免在屏幕上操作切换混乱
             // 横向的距离变化大则调整进度，纵向的变化大则调整音量
             if (Math.abs(distanceX) >= Math.abs(distanceY)) {
@@ -213,17 +214,20 @@ public class MainActivity extends FragmentActivity implements OnGestureListener,
             gesture_iv_player_bright.setImageResource(R.drawable.souhu_player_bright);
             if (mBrightness < 0) {
                 mBrightness = getWindow().getAttributes().screenBrightness;
-                if (mBrightness <= 0.00f)
+                if (mBrightness <= 0.00f) {
                     mBrightness = 0.50f;
-                if (mBrightness < 0.01f)
+                }
+                if (mBrightness < 0.01f) {
                     mBrightness = 0.01f;
+                }
             }
             WindowManager.LayoutParams lpa = getWindow().getAttributes();
-            lpa.screenBrightness = mBrightness + (mOldY - y) / playerHeight;
-            if (lpa.screenBrightness > 1.0f)
+            lpa.screenBrightness = mBrightness + (mOldY - e2RawY) / playerHeight;
+            if (lpa.screenBrightness > 1.0f) {
                 lpa.screenBrightness = 1.0f;
-            else if (lpa.screenBrightness < 0.01f)
+            } else if (lpa.screenBrightness < 0.01f) {
                 lpa.screenBrightness = 0.01f;
+            }
             getWindow().setAttributes(lpa);
             geture_tv_bright_percentage.setText((int) (lpa.screenBrightness * 100) + "%");
         }
@@ -237,8 +241,27 @@ public class MainActivity extends FragmentActivity implements OnGestureListener,
         return false;
     }
 
+    // e1：第1个ACTION_DOWN MotionEvent
+    // e2：最后一个ACTION_MOVE MotionEvent
+    // velocityX：X轴上的移动速度，像素/秒
+    // velocityY：Y轴上的移动速度，像素/秒
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        float mOldX = e1.getX();
+        float mNewX = e2.getX();
+        float mOldY = e1.getY();
+        float mNewY = e2.getY();
+        float distanceX= mNewX-mOldX;
+        float distanceY = mNewY- mOldY;
+        // 横向的距离变化大则调整进度，纵向的变化大则调整音量
+        if (Math.abs(distanceX) >= Math.abs(distanceY)) {
+            //向右快进
+            if (mNewX-mOldX>0){
+                Toast.makeText(MainActivity.this,"快进 10s",Toast.LENGTH_SHORT).show();
+            }else { //
+                Toast.makeText(MainActivity.this,"快退 10s",Toast.LENGTH_SHORT).show();
+            }
+        }
         return false;
     }
 
