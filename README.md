@@ -1,5 +1,9 @@
 # GestureDetector
 
+
+
+
+
 android开发之 GestureDetector 手势识别（调节音量、亮度、快进和后退）
 
 
